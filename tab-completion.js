@@ -27,8 +27,8 @@ const getOptionsFile = query => {
   const files = fs
     .readdirSync(dirname)
     .filter(file => file.startsWith(basename));
-  return query.endsWith(path.sep)
-    ? files.map(file => ({ display: file, value: query + file }))
+  return query.includes(path.sep)
+    ? files.map(file => ({ display: file, value: path.join(dirname, file) }))
     : files.map(file => ({ display: file, value: file }));
 };
 
