@@ -111,16 +111,19 @@ module.exports = core => {
     options = [],
     query;
   core.repl.preEaters.push(function(key) {
+    if (this.isBusy) return;
     if (!["\t", "\r"].includes(key)) {
       currentIndex = 0;
       tabbing = false;
     }
   });
   core.repl.preEaters.push(function(key) {
+    if (this.isBusy) return;
     this.postOutput = "";
   });
   core.repl.keyEaters["\t"] = [
     function(key) {
+      if (this.isBusy) return;
       const { x, y, currentInput } = this;
       const size = this.size();
       const index = size * y + x - 1;
@@ -149,6 +152,7 @@ module.exports = core => {
     }
   ];
   core.repl.keyEaters["\r"].unshift(function(key) {
+    if (this.isBusy) return;
     if (tabbing) {
       const index = currentIndex == 0 ? options.length - 1 : currentIndex - 1;
       const { value } = options[index];
